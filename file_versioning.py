@@ -3,6 +3,7 @@ import errno
 import pickle
 from datetime import date
 from functools import partial
+from contextlib import ExitStack
 
 #borrowed from https://stackoverflow.com/questions/3207219/how-do-i-list-all-files-of-a-directory
 def list_files(directory):
@@ -140,3 +141,10 @@ class Versioner():
         self.normal = normal
         self.minor = minor
         return self.__load_state()
+
+    def auto_save(self, func):
+        def wrapper(*args, **kwargs):
+            with ExitStack() as stack:
+                stack.callback(self.minor_increment_save)
+                func(*args, **kwargs)
+        return wrapper
