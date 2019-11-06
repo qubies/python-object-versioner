@@ -22,11 +22,9 @@ def mkdir_p(path):
             pass
         else:
             raise
+
 def is_int(n):
     return isinstance(n, int)
-
-def default_timestamp():
-    return today.strftime("%b-%d-%Y")
 
 class Versioner():
     def __init__(self, name, obj, save_function=None, load_function=None, time_stamp=partial(date.today().strftime, "%b-%d-%Y"), version_separator='.'):
@@ -70,8 +68,6 @@ class Versioner():
                 if major == -1:
                     # either did not match or was wrong format
                     continue
-                #for each file we assume that the last 3 splits are the major, normal and minor version numbers
-                #this should pass since the basename is equal here...
                 if not is_int(minor) or not is_int(normal) or not is_int(major):
                     raise NameError("Versions found are not ints -- minor: " + str(minor) + ", normal: " + str(normal) + ", major: " + str(major))
 
