@@ -1,6 +1,6 @@
 from file_versioning import *
-keras = True
-
+# If you want to run the test with a keras model as a target object
+keras = False
 
 if keras == True:
     from keras_versioning import auto_save_model
@@ -26,7 +26,10 @@ for x in range(5):
         ASM.mock_train()
     increment_a_dict(stupid__dict, x)
 
-s = v.load_specific(1,0,2)
+s = v.load(1,0,2)
 print(s)
-s = v.load_latest()
+s = v.load()
 print(s)
+if keras:
+    print(ASM.load())
+    print(ASM.load(1,0,2))

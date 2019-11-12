@@ -107,7 +107,7 @@ class Versioner():
             if major == self.major and normal == self.normal and minor == self.minor:
                 path = os.path.join(self.directory, file)
                 if self.load_function:
-                    self.object = self.load_function(path)
+                    self.obj = self.load_function(path)
                     return self.obj
                 else:
                     with open(path,"rb") as f:
@@ -141,6 +141,12 @@ class Versioner():
         self.normal = normal
         self.minor = minor
         return self.__load_state()
+
+    def load(self, major=-1, normal=-1, minor=-1):
+        if major ==  -1:
+            return self.load_latest()
+        else:
+            return self.load_specific(major, normal, minor)
 
     def auto_save(self, func):
         @wraps(func)
