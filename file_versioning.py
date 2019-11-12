@@ -2,7 +2,7 @@ import os
 import errno
 import pickle
 from datetime import date
-from functools import partial
+from functools import partial, wraps
 from contextlib import ExitStack
 
 #borrowed from https://stackoverflow.com/questions/3207219/how-do-i-list-all-files-of-a-directory
@@ -143,6 +143,7 @@ class Versioner():
         return self.__load_state()
 
     def auto_save(self, func):
+        @wraps(func)
         def wrapper(*args, **kwargs):
             with ExitStack() as stack:
                 stack.callback(self.minor_increment_save)
